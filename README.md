@@ -3,6 +3,7 @@
 自研 **Spring Boot 3** 网关：对外 **OpenAI Chat Completions** 兼容（`POST /v1/chat/completions`），按路由将请求转发到 **OpenAI**、**DeepSeek**（OpenAI 兼容透传）、**Anthropic Messages** 或 **Google Gemini generateContent**；客户端使用网关颁发的 **Bearer**（`GATEWAY_CLIENT_TOKENS`），上游密钥仅在网关侧配置。
 
 - 仓库：`https://github.com/leaviiiiing/AI-Gateway.git`
+- **设计与架构说明**：[docs/网关项目说明.md](docs/网关项目说明.md)（[文档索引](docs/README.md)）
 - 运维 Agent（a1）monorepo：与网关分离；通过 `OPENAI_BASE_URL` 指向本服务、`OPENAI_API_KEY` 使用网关客户端令牌；可选 `OPSAGENT_LLM_OPENAI_ROUTE_PROVIDER` 发送 `X-Route-Provider`。
 
 ## 路由
