@@ -4,7 +4,7 @@
 
 - 仓库：`https://github.com/leaviiiiing/AI-Gateway.git`
 - **设计与架构说明**：[docs/网关项目说明.md](docs/网关项目说明.md)（[文档索引](docs/README.md)）
-- 运维 Agent（a1）monorepo：与网关分离；通过 `OPENAI_BASE_URL` 指向本服务、`OPENAI_API_KEY` 使用网关客户端令牌；可选 `OPSAGENT_LLM_OPENAI_ROUTE_PROVIDER` 发送 `X-Route-Provider`。
+- 运维 Agent（a1）为独立项目；通过 `OPENAI_BASE_URL` 指向本服务、`OPENAI_API_KEY` 使用网关客户端令牌；可选 `OPSAGENT_LLM_OPENAI_ROUTE_PROVIDER` 发送 `X-Route-Provider`。
 
 ## 路由
 
@@ -28,9 +28,23 @@
 
 ## 运行
 
+### 本地 Maven
+
 ```bash
 mvn spring-boot:run
 ```
+
+### 容器（本仓库内）
+
+在 **仓库根目录**（与 `pom.xml` 同级）执行：
+
+```bash
+docker compose -f deploy/docker-compose.yml up --build
+```
+
+默认暴露 **8090**。上游与客户端令牌可通过环境变量或 `.env` 传入（见上表与 `deploy/docker-compose.yml`）。
+
+根目录 **`Dockerfile`** 为多阶段构建（Maven 打包 + JRE 运行）；**`.dockerignore`** 已排除 `target/` 等。
 
 健康检查：`GET http://localhost:8090/actuator/health`  
 指标：`GET http://localhost:8090/actuator/prometheus`

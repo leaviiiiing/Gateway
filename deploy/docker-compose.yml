@@ -1,0 +1,15 @@
+# 在 ai-gateway 仓库根目录执行: docker compose -f deploy/docker-compose.yml up --build
+services:
+  ai-gateway:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    ports:
+      - "8090:8090"
+    environment:
+      SERVER_PORT: "8090"
+      GATEWAY_CLIENT_TOKENS: ${GATEWAY_CLIENT_TOKENS:-}
+      UPSTREAM_OPENAI_API_KEY: ${UPSTREAM_OPENAI_API_KEY:-}
+      UPSTREAM_DEEPSEEK_API_KEY: ${UPSTREAM_DEEPSEEK_API_KEY:-}
+      UPSTREAM_ANTHROPIC_API_KEY: ${UPSTREAM_ANTHROPIC_API_KEY:-}
+      UPSTREAM_GEMINI_API_KEY: ${UPSTREAM_GEMINI_API_KEY:-}
