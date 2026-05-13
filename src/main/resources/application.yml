@@ -1,0 +1,45 @@
+server:
+  port: ${SERVER_PORT:8090}
+
+spring:
+  application:
+    name: ai-gateway
+
+gateway:
+  client-tokens: ${GATEWAY_CLIENT_TOKENS:}
+  upstreams:
+    openai:
+      base-url: ${UPSTREAM_OPENAI_BASE_URL:https://api.openai.com}
+      api-key: ${UPSTREAM_OPENAI_API_KEY:}
+    deepseek:
+      base-url: ${UPSTREAM_DEEPSEEK_BASE_URL:https://api.deepseek.com}
+      api-key: ${UPSTREAM_DEEPSEEK_API_KEY:}
+    anthropic:
+      base-url: ${UPSTREAM_ANTHROPIC_BASE_URL:https://api.anthropic.com}
+      api-key: ${UPSTREAM_ANTHROPIC_API_KEY:}
+      version: ${UPSTREAM_ANTHROPIC_VERSION:2023-06-01}
+    gemini:
+      mode: ${UPSTREAM_GEMINI_MODE:google}
+      base-url: ${UPSTREAM_GEMINI_BASE_URL:https://generativelanguage.googleapis.com}
+      api-key: ${UPSTREAM_GEMINI_API_KEY:}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+resilience4j:
+  ratelimiter:
+    instances:
+      gatewayChat:
+        limit-for-period: ${GATEWAY_RATE_LIMIT_PER_MINUTE:300}
+        limit-refresh-period: 1m
+        timeout-duration: 0s
+
+logging:
+  level:
+    com.example.aigateway: INFO
